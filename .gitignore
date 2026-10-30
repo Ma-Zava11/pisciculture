@@ -1,0 +1,26 @@
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Variables d'environnement et secrets
+.env
+.env.*
+!.env.example
+
+# React
+node_modules/
+dist/
+
+# VS Code
+.vscode/
+
+# Modèles et données générées
+ai/models/*.joblib
+ai/datasets/*.csv
+
+# Système
+.DS_Store
+Thumbs.db

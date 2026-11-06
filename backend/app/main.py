@@ -2,6 +2,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api.routes import router
+
 # Initialisation de l'application FastAPI
 app = FastAPI(
     title="API Pisciculture Intelligente",
@@ -25,6 +27,8 @@ def accueil():
         "status": "success",
         "version": "1.0.0"
     }
+
+app.include_router(router)
 
 @app.get("/health")
 def verifier_sante():

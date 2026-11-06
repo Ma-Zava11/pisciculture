@@ -3,6 +3,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from sqlalchemy import create_engine, text
+from sqlalchemy.orm import sessionmaker
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
@@ -42,3 +43,18 @@ if __name__ == "__main__":
 
     print("Connexion réussie !")
     print("Base de données :", nom_base)
+
+SessionLocal = sessionmaker(
+    bind=engine,
+    autoflush=False,
+    expire_on_commit=False  
+)
+def get_db() : 
+
+    db = SessionLocal()
+    
+    try:
+        yield db
+
+    finally:
+        db.close()

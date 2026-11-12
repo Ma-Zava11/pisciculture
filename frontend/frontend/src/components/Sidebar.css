@@ -1,0 +1,485 @@
+
+/* ==========================================================
+   SIDEBAR AQUASMART — STYLES ISOLÉS
+   ========================================================== */
+
+.pf-sidebar {
+  --pf-sidebar-width: 264px;
+  --pf-sidebar-collapsed-width: 76px;
+  --pf-sidebar-bg: #102b34;
+  --pf-sidebar-bg-deep: #0b222b;
+  --pf-sidebar-accent: #55d6b2;
+  --pf-sidebar-text: #e8f4f5;
+  --pf-sidebar-muted: #9db5bc;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 1000;
+
+  display: flex;
+  flex-direction: column;
+
+  width: var(--pf-sidebar-width);
+  height: 100dvh;
+
+  background:
+    linear-gradient(
+      165deg,
+      #153944 0%,
+      #102b34 45%,
+      #0b222b 100%
+    );
+
+  color: var(--pf-sidebar-text);
+
+  border-right: 1px solid rgba(255,255,255,0.07);
+
+  box-shadow: 4px 0 25px rgba(15, 23, 42, 0.06);
+
+  transition:
+    width 250ms ease,
+    transform 250ms ease;
+
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.pf-sidebar *,
+.pf-mobile-header *,
+.pf-sidebar-overlay {
+  box-sizing: border-box;
+}
+
+/* SIDEBAR RÉDUITE */
+
+.pf-sidebar--collapsed {
+  width: var(--pf-sidebar-collapsed-width);
+}
+
+/* EN-TÊTE */
+
+.pf-sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+
+  min-height: 90px;
+  padding: 20px 15px;
+
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.pf-sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+}
+
+.pf-sidebar-logo-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 43px;
+  height: 43px;
+
+  border-radius: 13px;
+
+  color: #0b3037;
+  background: linear-gradient(
+    135deg,
+    #8bf2d6,
+    #41c7a5
+  );
+
+  box-shadow: 0 6px 18px rgba(65,199,165,0.18);
+}
+
+.pf-sidebar-brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.pf-sidebar-brand-text strong {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.pf-sidebar-brand-text span {
+  font-size: 11px;
+  color: var(--pf-sidebar-muted);
+}
+
+/* BOUTONS */
+
+.pf-sidebar-toggle,
+.pf-sidebar-close-mobile,
+.pf-mobile-menu-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 33px;
+  height: 33px;
+
+  padding: 0;
+  border: 0;
+  border-radius: 9px;
+
+  color: #b6d0d4;
+  background: rgba(255,255,255,0.07);
+
+  cursor: pointer;
+  transition: background 180ms ease;
+}
+
+.pf-sidebar-toggle:hover,
+.pf-sidebar-close-mobile:hover {
+  background: rgba(255,255,255,0.16);
+  color: #fff;
+}
+
+.pf-sidebar-close-mobile {
+  display: none;
+}
+
+/* TITRE NAVIGATION */
+
+.pf-sidebar-section-label {
+  padding: 28px 24px 12px;
+
+  color: #7e9da5;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+
+  white-space: nowrap;
+}
+
+/* NAVIGATION */
+
+.pf-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+
+  padding: 0 12px;
+}
+
+.pf-sidebar-link {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  min-height: 48px;
+  padding: 12px 14px;
+
+  border-radius: 11px;
+
+  color: #aec6cb;
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  transition:
+    background 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.pf-sidebar-link:hover {
+  color: #fff;
+  background: rgba(255,255,255,0.075);
+}
+
+.pf-sidebar-link--active {
+  color: #83efcf;
+  background: rgba(85,214,178,0.13);
+}
+
+.pf-sidebar-link--active::before {
+  content: "";
+
+  position: absolute;
+  left: 0;
+  top: 11px;
+  bottom: 11px;
+
+  width: 3px;
+  border-radius: 0 4px 4px 0;
+
+  background: var(--pf-sidebar-accent);
+}
+
+.pf-sidebar-link-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 23px;
+  height: 23px;
+}
+
+.pf-sidebar-link-text {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pf-sidebar-link-arrow {
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.pf-sidebar-link:hover .pf-sidebar-link-arrow,
+.pf-sidebar-link--active .pf-sidebar-link-arrow {
+  opacity: 0.8;
+}
+
+/* SIDEBAR RÉDUITE */
+
+.pf-sidebar--collapsed .pf-sidebar-header {
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 8px;
+  min-height: 112px;
+}
+
+.pf-sidebar--collapsed .pf-sidebar-brand-text,
+.pf-sidebar--collapsed .pf-sidebar-section-label,
+.pf-sidebar--collapsed .pf-sidebar-link-text,
+.pf-sidebar--collapsed .pf-sidebar-link-arrow,
+.pf-sidebar--collapsed .pf-sidebar-footer-text {
+  display: none;
+}
+
+.pf-sidebar--collapsed .pf-sidebar-nav {
+  padding: 0 10px;
+  margin-top: 20px;
+}
+
+.pf-sidebar--collapsed .pf-sidebar-link {
+  justify-content: center;
+  padding: 12px;
+}
+
+.pf-sidebar--collapsed .pf-sidebar-footer {
+  justify-content: center;
+}
+
+/* PIED DE SIDEBAR */
+
+.pf-sidebar-spacer {
+  flex: 1;
+  min-height: 20px;
+}
+
+.pf-sidebar-footer {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  padding: 18px 15px;
+  margin: 0 12px 16px;
+
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+
+  background: rgba(255,255,255,0.045);
+}
+
+.pf-sidebar-footer-icon {
+  display: flex;
+  flex-shrink: 0;
+  color: #79e8cb;
+}
+
+.pf-sidebar-footer-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow: hidden;
+}
+
+.pf-sidebar-footer-text strong {
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.pf-sidebar-footer-text span {
+  color: #9ab3ba;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+/* CONTENEUR PRINCIPAL DE L'APPLICATION */
+
+.pf-app-layout {
+  min-height: 100vh;
+  width: 100%;
+}
+
+.pf-app-content {
+  margin-left: 264px;
+
+  min-width: 0;
+  min-height: 100vh;
+  width: auto;
+
+  background: #f5f8fa;
+
+  transition: margin-left 250ms ease;
+}
+
+.pf-app-layout--collapsed .pf-app-content {
+  margin-left: 76px;
+}
+
+.pf-app-page {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+}
+
+/* HEADER MOBILE */
+
+.pf-mobile-header {
+  display: none;
+}
+
+.pf-sidebar-overlay {
+  display: none;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .pf-sidebar {
+    width: 264px;
+    transform: translateX(-100%);
+    z-index: 1200;
+  }
+
+  .pf-sidebar--mobile-open {
+    transform: translateX(0);
+  }
+
+  /* Le menu mobile reste toujours agrandi. */
+
+  .pf-sidebar--collapsed {
+    width: 264px;
+  }
+
+  .pf-sidebar--collapsed .pf-sidebar-header {
+    flex-direction: row;
+    justify-content: space-between;
+    min-height: 90px;
+    padding: 20px 15px;
+  }
+
+  .pf-sidebar--collapsed .pf-sidebar-brand-text,
+  .pf-sidebar--collapsed .pf-sidebar-section-label,
+  .pf-sidebar--collapsed .pf-sidebar-link-text,
+  .pf-sidebar--collapsed .pf-sidebar-footer-text {
+    display: flex;
+  }
+
+  .pf-sidebar--collapsed .pf-sidebar-nav {
+    padding: 0 12px;
+    margin-top: 0;
+  }
+
+  .pf-sidebar--collapsed .pf-sidebar-link {
+    justify-content: flex-start;
+    padding: 12px 14px;
+  }
+
+  .pf-sidebar-toggle {
+    display: none;
+  }
+
+  .pf-sidebar-close-mobile {
+    display: flex;
+  }
+
+  .pf-sidebar-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 1150;
+
+    width: 100%;
+    height: 100%;
+
+    border: 0;
+    background: rgba(8, 25, 35, 0.55);
+    cursor: pointer;
+  }
+
+  .pf-mobile-header {
+    position: sticky;
+    top: 0;
+    z-index: 1100;
+
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    height: 64px;
+    padding: 0 16px;
+
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .pf-mobile-menu-btn {
+    background: #eef4f5;
+    color: #12323b;
+  }
+
+  .pf-mobile-brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    color: #123b44;
+    font-weight: 800;
+    font-size: 17px;
+  }
+
+  .pf-mobile-brand svg {
+    color: #19a88c;
+  }
+
+  .pf-app-content,
+  .pf-app-layout--collapsed .pf-app-content {
+    margin-left: 0;
+    min-height: calc(100vh - 64px);
+  }
+}
+
+/* ACCESSIBILITÉ */
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-sidebar,
+  .pf-app-content,
+  .pf-sidebar-link {
+    transition: none;
+  }
+}

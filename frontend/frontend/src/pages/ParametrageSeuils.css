@@ -1,0 +1,185 @@
+
+/* JOUR 9 — Interface de paramétrage des seuils */
+
+.seuils-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 32px;
+  background: #f5f8fc;
+  color: #172b4d;
+  font-family: Inter, system-ui, Arial, sans-serif;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+.seuils-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 30px;
+}
+
+.seuils-header h1 {
+  margin: 10px 0;
+  font-size: 30px;
+}
+
+.seuils-header p {
+  color: #78869a;
+  font-size: 14px;
+}
+
+.seuils-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #078b91;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.seuils-refresh,
+.seuils-card-footer button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 17px;
+  border: 0;
+  border-radius: 9px;
+  background: #087f8c;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.seuils-refresh:disabled,
+.seuils-card-footer button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.seuils-liste {
+  display: grid;
+  gap: 18px;
+}
+
+.seuils-card {
+  padding: 24px;
+  background: white;
+  border: 1px solid #e7edf5;
+  border-radius: 16px;
+}
+
+.seuils-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 24px;
+}
+
+.seuils-card-header h2 {
+  margin: 0 0 7px;
+  font-size: 19px;
+}
+
+.seuils-card-header p {
+  margin: 0;
+  color: #8b99aa;
+  font-size: 13px;
+}
+
+.seuils-actif {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+}
+
+.seuils-champs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.seuils-champs label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.seuils-champs span {
+  color: #78869a;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.seuils-champs input {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #dce5ef;
+  border-radius: 9px;
+  background: white;
+  color: #172b4d;
+  font-size: 14px;
+}
+
+.seuils-champs input:focus {
+  outline: 2px solid #087f8c;
+  outline-offset: 1px;
+}
+
+.seuils-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 24px;
+}
+
+.seuils-card-footer small {
+  color: #8b99aa;
+}
+
+.seuils-message {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px;
+  margin-bottom: 18px;
+  border-radius: 10px;
+}
+
+.seuils-message.erreur {
+  background: #fff0f0;
+  color: #bc3434;
+}
+
+.seuils-message.succes {
+  background: #e6f7f1;
+  color: #087c59;
+}
+
+@media (max-width: 800px) {
+  .seuils-champs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .seuils-page {
+    padding: 18px;
+  }
+
+  .seuils-header,
+  .seuils-card-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .seuils-champs {
+    grid-template-columns: 1fr;
+  }
+}

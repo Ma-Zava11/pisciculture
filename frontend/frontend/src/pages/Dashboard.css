@@ -1,0 +1,745 @@
+
+/* ==========================================
+   DASHBOARD - PISCICULTURE INTELLIGENTE
+   ========================================== */
+
+.dashboard {
+  min-height: 100vh;
+  padding: 32px;
+  background: #f5f8fc;
+  color: #172b4d;
+  font-family: Inter, system-ui, Arial, sans-serif;
+  width: 100%;
+  margin: 0;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+/* En-tête */
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 30px;
+}
+
+.dashboard-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #078b91;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.dashboard-header h1 {
+  margin: 0 0 9px;
+  font-size: clamp(25px, 3vw, 34px);
+  font-weight: 800;
+  letter-spacing: -0.8px;
+}
+
+.dashboard-header p {
+  margin: 0;
+  color: #75849a;
+  font-size: 14px;
+}
+
+.dashboard-refresh {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 10px;
+  background: #087f8c;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.dashboard-refresh:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Statistiques */
+
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 35px;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 23px;
+  border: 1px solid #e8eef5;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 4px 16px rgba(20, 45, 80, 0.035);
+}
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  margin-bottom: 20px;
+}
+
+.stat-icon.blue {
+  background: #e7f0ff;
+  color: #3175dc;
+}
+
+.stat-icon.teal {
+  background: #dff8f3;
+  color: #079b8e;
+}
+
+.stat-icon.purple {
+  background: #f0eaff;
+  color: #8055cc;
+}
+
+.stat-icon.orange {
+  background: #fff1dd;
+  color: #d99024;
+}
+
+.stat-label {
+  color: #78869a;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.stat-value {
+  display: block;
+  margin: 9px 0;
+  color: #142b4b;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.stat-value small {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.stat-text {
+  font-size: 22px;
+  letter-spacing: -0.3px;
+}
+
+.stat-detail {
+  color: #9aa6b7;
+  font-size: 12px;
+}
+
+/* Sections */
+
+.dashboard-section {
+  margin-bottom: 35px;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.section-eyebrow {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+  color: #079b91;
+}
+
+.section-heading h2 {
+  margin: 7px 0;
+  font-size: 23px;
+  font-weight: 750;
+}
+
+.section-heading p {
+  margin: 0;
+  color: #8592a5;
+  font-size: 13px;
+}
+
+.section-count {
+  padding: 8px 13px;
+  background: #e4f3f4;
+  border-radius: 9px;
+  color: #087f8c;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Cartes des bassins */
+
+.bassins-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.bassin-card {
+  padding: 23px;
+  background: white;
+  border: 1px solid #e7edf5;
+  border-radius: 16px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.bassin-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 26px rgba(24, 55, 90, 0.08);
+}
+
+.bassin-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+}
+
+.bassin-icon {
+  display: grid;
+  place-items: center;
+  width: 47px;
+  height: 47px;
+  background: #e3f7f7;
+  color: #078c98;
+  border-radius: 13px;
+}
+
+.bassin-code {
+  padding: 7px 11px;
+  border-radius: 8px;
+  background: #f1f5f9;
+  color: #63758b;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.bassin-card h3 {
+  margin: 0 0 8px;
+  font-size: 19px;
+  font-weight: 750;
+}
+
+.bassin-description {
+  margin: 0 0 22px;
+  color: #96a1b0;
+  font-size: 13px;
+}
+
+.bassin-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px;
+  background: #f6f9fc;
+  border-radius: 11px;
+}
+
+.bassin-info-icon {
+  color: #0b97a6;
+}
+
+.bassin-info > div:nth-child(2) {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.bassin-info span {
+  font-size: 11px;
+  color: #8b99aa;
+}
+
+.bassin-info strong {
+  font-size: 15px;
+  color: #1d3553;
+}
+
+.bassin-arrow {
+  color: #a4b2c2;
+}
+
+/* Alertes */
+
+.alertes-container {
+  padding: 22px;
+  border: 1px solid #e7edf5;
+  border-radius: 16px;
+  background: white;
+}
+
+/* Messages */
+
+.dashboard-error {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px;
+  margin-bottom: 22px;
+  border-radius: 10px;
+  background: #fff0f0;
+  color: #bc3434;
+}
+
+.dashboard-error span {
+  flex: 1;
+}
+
+.dashboard-error button {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.dashboard-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  padding: 30px;
+  background: white;
+  border: 1px dashed #d9e3ee;
+  border-radius: 15px;
+  color: #8a9aae;
+  text-align: center;
+}
+
+.dashboard-empty h3 {
+  margin-bottom: 0;
+  color: #334a65;
+}
+
+.rotation {
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive */
+
+@media (max-width: 1100px) {
+  .dashboard-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .bassins-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 650px) {
+  .dashboard {
+    padding: 18px;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .dashboard-refresh {
+    justify-content: center;
+  }
+
+  .dashboard-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .stat-card {
+    padding: 15px;
+  }
+
+  .stat-value {
+    font-size: 25px;
+  }
+
+  .stat-text {
+    font-size: 17px;
+  }
+
+  .bassins-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .alertes-container {
+    padding: 12px;
+  }
+}
+
+/* Le dashboard occupe toute la largeur disponible
+.dashboard {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 32px;
+  background: #f5f8fc;
+  color: #172b4d;
+  text-align: left;
+} */
+
+/* Forcer des couleurs lisibles pour les titres */
+.dashboard h1,
+.dashboard h2,
+.dashboard h3 {
+  color: #172b4d;
+}
+
+/* Titres des sections */
+.dashboard .section-heading h2 {
+  color: #172b4d;
+  font-size: 23px;
+  font-weight: 750;
+}
+
+/* Éviter le débordement des grilles */
+.dashboard-stats,
+.bassins-grid {
+  width: 100%;
+}
+
+/* Affichage adapté aux petits écrans
+@media (max-width: 650px) {
+  .dashboard {
+    padding: 18px;
+  }
+} */
+
+/* ==========================================================
+   JOUR 8 — SUPERVISION EN TEMPS RÉEL
+   ========================================================== */
+
+/* Permet de cliquer sur les cartes des bassins. */
+.bassin-card-button {
+  width: 100%;
+  display: block;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* Indiquer visuellement le bassin sélectionné. */
+.bassin-card-selectionne {
+  border: 2px solid #079b91;
+  background: #f5fdfc;
+  box-shadow: 0 5px 20px rgba(7, 155, 145, 0.1);
+}
+
+.bassin-card-button:focus-visible {
+  outline: 3px solid #3175dc;
+  outline-offset: 3px;
+}
+
+.bassin-selection-indicateur {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 15px;
+  color: #078b91;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ----------------------------------------------------------
+   FRAÎCHEUR DES MESURES
+   ---------------------------------------------------------- */
+
+.supervision-fraicheur {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 17px;
+  margin-bottom: 18px;
+  border-radius: 11px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.supervision-fraicheur.recente {
+  background: #e6f7f1;
+  color: #087c59;
+}
+
+.supervision-fraicheur.ancienne {
+  background: #fff2dc;
+  color: #a96808;
+}
+
+/* ----------------------------------------------------------
+   CARTES DES PARAMÈTRES
+   ---------------------------------------------------------- */
+
+.mesures-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.mesure-card {
+  min-width: 0;
+  padding: 23px;
+  border: 1px solid #e7edf5;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 4px 16px rgba(20, 45, 80, 0.035);
+}
+
+.mesure-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.mesure-card-icon {
+  width: 45px;
+  height: 45px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: #e3f7f7;
+  color: #078c98;
+}
+
+.mesure-card-label {
+  display: block;
+  color: #78869a;
+  font-size: 13px;
+  margin-bottom: 9px;
+}
+
+.mesure-card-valeur {
+  display: block;
+  color: #142b4b;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.7px;
+}
+
+.mesure-card-valeur small {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.mesure-niveau {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 9px;
+  border-radius: 7px;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.mesure-niveau.normal {
+  background: #e4f8ed;
+  color: #18845a;
+}
+
+.mesure-niveau.avertissement {
+  background: #fff2d6;
+  color: #a96c00;
+}
+
+.mesure-niveau.critique {
+  background: #fee8e8;
+  color: #c42e36;
+}
+
+.mesure-niveau.indisponible {
+  background: #eef2f7;
+  color: #64748b;
+}
+
+/* ----------------------------------------------------------
+   PANNEAUX DE SUPERVISION
+   ---------------------------------------------------------- */
+
+.supervision-panel {
+  padding: 24px;
+  margin-bottom: 22px;
+  background: white;
+  border: 1px solid #e7edf5;
+  border-radius: 16px;
+}
+
+.supervision-panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 22px;
+}
+
+.supervision-panel-heading h3 {
+  margin: 0 0 6px;
+  font-size: 19px;
+}
+
+.supervision-panel-heading p {
+  margin: 0;
+  color: #8592a5;
+  font-size: 13px;
+}
+
+.supervision-message,
+.supervision-actualisation {
+  color: #78869a;
+  font-size: 13px;
+}
+
+.supervision-actualisation {
+  text-align: right;
+}
+
+/* ----------------------------------------------------------
+   GRAPHIQUES
+   ---------------------------------------------------------- */
+
+.mesures-graphiques {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.mesures-graphique-card {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid #edf1f6;
+  border-radius: 12px;
+  background: #fcfdff;
+}
+
+.mesures-graphique-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.mesures-graphique-heading h3 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.mesures-graphique-heading span {
+  color: #8592a5;
+  font-size: 12px;
+}
+
+.mesures-graphique-zone {
+  width: 100%;
+  height: 260px;
+}
+
+/* ----------------------------------------------------------
+   ALERTES DU BASSIN
+   ---------------------------------------------------------- */
+
+.supervision-alertes-liste {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.supervision-alerte {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 15px;
+  border: 1px solid #fee2e2;
+  border-radius: 10px;
+  background: #fff7f7;
+  color: #b42330;
+}
+
+.supervision-alerte > div {
+  min-width: 0;
+}
+
+.supervision-alerte strong {
+  font-size: 13px;
+}
+
+.supervision-alerte p {
+  margin: 6px 0;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.supervision-alerte small {
+  font-size: 11px;
+}
+
+/* ----------------------------------------------------------
+   RESPONSIVE
+   ---------------------------------------------------------- */
+
+@media (max-width: 1100px) {
+  .mesures-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 800px) {
+  .mesures-graphiques {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 650px) {
+  .mesures-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .supervision-panel {
+    padding: 15px;
+  }
+
+  .mesure-card {
+    padding: 18px;
+  }
+
+  .mesure-card-valeur {
+    font-size: 27px;
+  }
+
+  .mesures-graphique-card {
+    padding: 12px;
+  }
+}

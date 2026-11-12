@@ -1,0 +1,156 @@
+
+/* Conteneur principal de surveillance */
+.alertes-dashboard {
+  padding: 24px;
+  background: #f8fafc;
+  border-radius: 16px;
+  color: #172033;
+}
+
+/* En-tête du tableau de bord */
+.alertes-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.alertes-header h2 {
+  margin: 0 0 6px;
+  font-size: 22px;
+}
+
+.alertes-header p {
+  margin: 0;
+  color: #64748b;
+}
+
+/* Boutons d'action */
+.alertes-dashboard button {
+  padding: 9px 14px;
+  border: 0;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+}
+
+.alertes-dashboard button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Cartes de statistiques */
+.alertes-statistiques {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.alertes-statistiques article {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.alertes-statistiques span {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.alertes-statistiques strong {
+  font-size: 30px;
+}
+
+/* Couleurs des niveaux de risque */
+.texte-critique {
+  color: #dc2626;
+}
+
+.texte-avertissement {
+  color: #d97706;
+}
+
+/* Tableau des alertes */
+.alertes-table-wrapper {
+  overflow-x: auto;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.alertes-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.alertes-table th,
+.alertes-table td {
+  padding: 14px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.alertes-table th {
+  background: #f1f5f9;
+  font-size: 13px;
+}
+
+/* Étiquettes de gravité */
+.alerte-badge {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.alerte-badge.critique {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.alerte-badge.avertissement {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+/* Messages d'état */
+.alertes-erreur {
+  padding: 12px;
+  margin-bottom: 16px;
+  background: #fee2e2;
+  color: #991b1b;
+  border-radius: 8px;
+}
+
+.alertes-vide {
+  padding: 30px;
+  text-align: center;
+  background: white;
+  border-radius: 12px;
+}
+
+/* Adaptation aux petits écrans */
+@media (max-width: 800px) {
+  .alertes-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .alertes-statistiques {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .alertes-statistiques {
+    grid-template-columns: 1fr;
+  }
+}

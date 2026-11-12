@@ -1,0 +1,403 @@
+
+/* ==========================================================
+   JOUR 11 — CENTRE D'ALERTES
+   Styles isolés avec le préfixe pf-alertes-
+   ========================================================== */
+
+.pf-alertes-page {
+  width: 100%;
+  max-width: 1600px;
+  min-width: 0;
+  margin: 0 auto;
+  padding: 26px;
+  box-sizing: border-box;
+  color: #172b4d;
+}
+
+.pf-alertes-page * {
+  box-sizing: border-box;
+}
+
+/* EN-TÊTE */
+
+.pf-alertes-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-bottom: 26px;
+}
+
+.pf-alertes-header h1 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  font-size: 27px;
+  color: #102d35;
+}
+
+.pf-alertes-header h1 svg {
+  color: #0f9c83;
+}
+
+.pf-alertes-header p {
+  margin: 8px 0 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* CARTES DE STATISTIQUES */
+
+.pf-alertes-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.pf-alertes-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+.pf-alertes-stat > span {
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.pf-alertes-stat strong {
+  color: #102d35;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+.pf-alertes-stat small {
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.pf-alertes-stat.critique {
+  border-left: 4px solid #dc2626;
+}
+
+.pf-alertes-stat.critique strong {
+  color: #dc2626;
+}
+
+.pf-alertes-stat.avertissement {
+  border-left: 4px solid #d97706;
+}
+
+.pf-alertes-stat.avertissement strong {
+  color: #d97706;
+}
+
+/* PANNEAUX */
+
+.pf-alertes-panel {
+  min-width: 0;
+  padding: 22px;
+  margin-bottom: 24px;
+  border: 1px solid #e2e8f0;
+  border-radius: 15px;
+  background: white;
+}
+
+.pf-alertes-panel-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.pf-alertes-panel-heading h2 {
+  margin: 0 0 6px;
+  font-size: 19px;
+  color: #102d35;
+}
+
+.pf-alertes-panel-heading p {
+  margin: 0;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.pf-alertes-panel > small {
+  display: block;
+  margin-top: 14px;
+  color: #64748b;
+}
+
+/* SURVEILLANCE ACTIVE */
+
+.pf-alertes-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 30px;
+  background: #e6f8f1;
+  color: #087f5b;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.pf-alertes-live span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #16a34a;
+  box-shadow: 0 0 0 4px rgba(22,163,74,0.12);
+}
+
+/* BOUTONS ET OPTIONS */
+
+.pf-alertes-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pf-alertes-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 15px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  background: white;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 180ms ease;
+}
+
+.pf-alertes-btn:hover:not(:disabled) {
+  background: #f1f5f9;
+}
+
+.pf-alertes-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pf-alertes-btn.primaire {
+  border-color: #0f9c83;
+  background: #0f9c83;
+  color: white;
+}
+
+.pf-alertes-btn.primaire:hover:not(:disabled) {
+  background: #0b806c;
+}
+
+.pf-alertes-select {
+  min-width: 155px;
+  padding: 11px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  background: white;
+  color: #334155;
+  font-size: 13px;
+}
+
+/* LISTE DES ALERTES */
+
+.pf-alertes-liste {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pf-alerte-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  min-width: 0;
+  padding: 17px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.pf-alerte-item--critique {
+  border-left: 4px solid #dc2626;
+}
+
+.pf-alerte-item--avertissement {
+  border-left: 4px solid #f59e0b;
+}
+
+.pf-alerte-icone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  background: #fff1f2;
+  color: #dc2626;
+}
+
+.pf-alerte-item--avertissement .pf-alerte-icone {
+  background: #fffbeb;
+  color: #d97706;
+}
+
+.pf-alerte-contenu {
+  flex: 1;
+  min-width: 0;
+}
+
+.pf-alerte-titre {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pf-alerte-titre strong {
+  font-size: 14px;
+  color: #0f172a;
+}
+
+.pf-alerte-contenu p {
+  margin: 10px 0;
+  color: #475569;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.pf-alerte-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.pf-alerte-badge {
+  padding: 5px 9px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.pf-alerte-badge.critique {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.pf-alerte-badge.avertissement {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.pf-alerte-actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.pf-alerte-statut {
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ÉTAT VIDE ET ERREURS */
+
+.pf-alertes-vide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 55px 20px;
+  text-align: center;
+  color: #64748b;
+}
+
+.pf-alertes-vide svg {
+  color: #0f9c83;
+}
+
+.pf-alertes-vide strong {
+  color: #334155;
+}
+
+.pf-alertes-vide p {
+  margin: 0;
+  font-size: 13px;
+}
+
+.pf-alertes-erreur {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  background: #fee2e2;
+  color: #991b1b;
+  font-size: 13px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1150px) {
+  .pf-alertes-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .pf-alertes-page {
+    padding: 15px;
+  }
+
+  .pf-alertes-header h1 {
+    font-size: 22px;
+  }
+
+  .pf-alertes-panel {
+    padding: 15px;
+  }
+
+  .pf-alerte-item {
+    flex-wrap: wrap;
+  }
+
+  .pf-alerte-actions {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .pf-alertes-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .pf-alertes-options {
+    flex-direction: column;
+  }
+
+  .pf-alertes-options button {
+    width: 100%;
+  }
+}

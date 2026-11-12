@@ -1,0 +1,328 @@
+
+/* ==========================================================
+   JOUR 12 — SUPERVISION EN TEMPS RÉEL
+   ========================================================== */
+
+.pf-temps-page {
+  width: 100%;
+  max-width: 1600px;
+  min-width: 0;
+  margin: 0 auto;
+  padding: 26px;
+  box-sizing: border-box;
+  color: #17323c;
+}
+
+.pf-temps-page * {
+  box-sizing: border-box;
+}
+
+/* EN-TÊTE */
+
+.pf-temps-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.pf-temps-header h1 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  font-size: 26px;
+}
+
+.pf-temps-header h1 svg {
+  color: #0f9c83;
+}
+
+.pf-temps-header p {
+  margin: 9px 0 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* ÉTAT DE CONNEXION */
+
+.pf-temps-connexion {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 14px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.pf-temps-connexion.connecte {
+  background: #e4f8ed;
+  color: #15803d;
+}
+
+.pf-temps-connexion.deconnecte {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* INDICATEURS */
+
+.pf-temps-indicateurs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 25px;
+}
+
+.pf-temps-indicateurs article {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+  padding: 21px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background: white;
+}
+
+.pf-temps-indicateurs article svg {
+  color: #0f9c83;
+}
+
+.pf-temps-indicateurs article span {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.pf-temps-indicateurs article strong {
+  font-size: 29px;
+  color: #0f172a;
+}
+
+.pf-temps-indicateurs .pf-temps-heure {
+  font-size: 23px;
+}
+
+/* SECTIONS */
+
+.pf-temps-section {
+  min-width: 0;
+  margin-bottom: 24px;
+  padding: 22px;
+  border: 1px solid #e2e8f0;
+  border-radius: 15px;
+  background: white;
+}
+
+.pf-temps-section h2 {
+  margin: 0 0 18px;
+  font-size: 19px;
+}
+
+.pf-temps-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.pf-temps-section-header h2 {
+  margin: 0 0 7px;
+}
+
+.pf-temps-section-header p {
+  margin: 0;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.pf-temps-section-header select {
+  min-width: 190px;
+  padding: 11px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  background: white;
+  color: #334155;
+}
+
+/* CARTES BASSINS */
+
+.pf-temps-grille {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.pf-temps-bassin {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: 13px;
+  background: #ffffff;
+}
+
+.pf-temps-bassin-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.pf-temps-bassin-header > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.pf-temps-bassin-header strong {
+  font-size: 17px;
+  color: #102d35;
+}
+
+.pf-temps-bassin-header span {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.pf-temps-etat {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.pf-temps-etat.normal {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.pf-temps-etat.danger {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* MESURES */
+
+.pf-temps-mesures {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.pf-temps-mesures > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 9px;
+  min-width: 0;
+  padding: 13px;
+  border-radius: 10px;
+  background: #f5f9fa;
+}
+
+.pf-temps-mesures svg {
+  color: #0f9c83;
+}
+
+.pf-temps-mesures small {
+  color: #64748b;
+  font-size: 11px;
+}
+
+.pf-temps-mesures strong {
+  font-size: 15px;
+  color: #0f172a;
+  overflow-wrap: anywhere;
+}
+
+.pf-temps-bassin footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 17px;
+  color: #64748b;
+  font-size: 11px;
+}
+
+.pf-temps-retard {
+  color: #b45309;
+  font-weight: 700;
+}
+
+/* GRAPHIQUE */
+
+.pf-temps-graphique {
+  width: 100%;
+  min-width: 0;
+  height: 340px;
+}
+
+.pf-temps-note {
+  margin: 12px 0 0;
+  color: #64748b;
+  font-size: 12px;
+}
+
+/* ERREUR */
+
+.pf-temps-erreur {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1100px) {
+  .pf-temps-grille {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .pf-temps-page {
+    padding: 15px;
+  }
+
+  .pf-temps-header h1 {
+    font-size: 21px;
+  }
+
+  .pf-temps-indicateurs {
+    grid-template-columns: 1fr;
+  }
+
+  .pf-temps-section {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pf-temps-mesures {
+    grid-template-columns: 1fr;
+  }
+
+  .pf-temps-section-header select {
+    width: 100%;
+  }
+
+  .pf-temps-graphique {
+    height: 280px;
+  }
+}

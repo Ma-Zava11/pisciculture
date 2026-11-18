@@ -1,17 +1,11 @@
 
-# ============================================================
-# JOUR 15 — CONNEXION POSTGRESQL
-# Fichier : data_science/database.py
-# ============================================================
-
+# CONNEXION POSTGRESQL
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine import make_url
 
 from config import DATABASE_URL
 
 
-# Adapter le dialecte SQLAlchemy pour psycopg 3.
-# Si le backend utilise psycopg2, le remplacer
 # uniquement pour cette connexion Data Science.
 url = make_url(DATABASE_URL)
 
@@ -26,8 +20,6 @@ engine = create_engine(
 
 def tester_connexion():
     """
-    Vérifier que PostgreSQL est accessible.
-
     La transaction est configurée en lecture seule :
     aucun INSERT, UPDATE ou DELETE n'est autorisé.
     """

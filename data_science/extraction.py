@@ -1,8 +1,5 @@
 
-# ============================================================
-# JOUR 15 — EXTRACTION DES MESURES IoT
-# Fichier : data_science/extraction.py
-# ============================================================
+# EXTRACTION DES MESURES IoT
 
 import pandas as pd
 from sqlalchemy import text

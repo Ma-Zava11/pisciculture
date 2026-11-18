@@ -24,3 +24,20 @@ ai/datasets/*.csv
 # Système
 .DS_Store
 Thumbs.db
+
+# Environnements Python
+data_science/.venv/
+
+# Données exportées de PostgreSQL
+data_science/data/raw/
+data_science/data/processed/
+
+# Rapports générés
+data_science/rapports/
+
+# Fichiers temporaires Python
+__pycache__/
+*.pyc
+
+# Variables d'environnement
+.env

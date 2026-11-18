@@ -1,9 +1,5 @@
 
-# ============================================================
-# JOUR 15 — CONFIGURATION DATA SCIENCE
-# Fichier : data_science/config.py
-# ============================================================
-
+# CONFIGURATION DATA SCIENCE
 from pathlib import Path
 from dotenv import load_dotenv
 import os

@@ -1,12 +1,8 @@
 
-# ============================================================
-# JOUR 15 — EXPLORATION DES DONNÉES
-# Fichier : data_science/exploration.py
-# ============================================================
-
+# EXPLORATION DES DONNÉES
 import matplotlib
 
-# Utiliser un moteur non interactif pour générer
+# un moteur non interactif pour générer
 # les graphiques PNG sans ouvrir de fenêtre.
 matplotlib.use("Agg")
 
@@ -50,10 +46,7 @@ def explorer_mesures(df):
         )
         return
 
-    # --------------------------------------------------------
-    # 1. Statistiques descriptives par bassin.
-    # --------------------------------------------------------
-
+    # Statistiques descriptives par bassin.
     statistiques = df.groupby(
         "bassin_code"
     )[COLONNES_CAPTEURS].agg(
@@ -72,10 +65,7 @@ def explorer_mesures(df):
     print("\n=== STATISTIQUES DES BASSINS ===")
     print(statistiques.round(2))
 
-    # --------------------------------------------------------
-    # 2. Répartition des sources de données.
-    # --------------------------------------------------------
-
+    # Répartition des sources de données.
     print("\n=== SOURCES DES MESURES ===")
     print(
         df["source"].value_counts(
@@ -83,10 +73,8 @@ def explorer_mesures(df):
         )
     )
 
-    # --------------------------------------------------------
-    # 3. Générer les graphiques par bassin.
-    # --------------------------------------------------------
 
+    # Générer les graphiques par bassin.
     for code_bassin, groupe in df.groupby(
         "bassin_code"
     ):
@@ -142,9 +130,7 @@ def explorer_mesures(df):
 
             plt.close(fig)
 
-        # ----------------------------------------------------
-        # 4. Disponibilité des capteurs.
-        # ----------------------------------------------------
+        # Disponibilité des capteurs.
 
         disponibilite = (
             groupe[COLONNES_CAPTEURS]

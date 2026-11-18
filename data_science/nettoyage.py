@@ -1,191 +1,142 @@
 
-# ============================================================
-# JOUR 15 — EXPLORATION DES DONNÉES
-# Fichier : data_science/exploration.py
-# ============================================================
+#  NETTOYAGE DES DONNÉES
 
-import matplotlib
-
-# Utiliser un moteur non interactif pour générer
-# les graphiques PNG sans ouvrir de fenêtre.
-matplotlib.use("Agg")
-
-import matplotlib.pyplot as plt
 import pandas as pd
 
-from config import (
-    COLONNES_CAPTEURS,
-    DOSSIER_RAPPORTS
-)
+from config import COLONNES_CAPTEURS
 
 
-PARAMETRES = {
-    "temperature_c": (
-        "Température de l'eau",
-        "Température (°C)"
-    ),
-    "ph": (
-        "Évolution du pH",
-        "pH"
-    ),
-    "oxygene_dissous_mg_l": (
-        "Oxygène dissous",
-        "Oxygène (mg/L)"
-    )
-}
-
-
-def explorer_mesures(df):
+def nettoyer_mesures(donnees):
     """
-    Produire des statistiques descriptives et
-    des graphiques pour chaque bassin.
+    Nettoyer une copie des données IoT.
 
-    Les données de différents bassins ne sont
-    pas mélangées dans une seule courbe.
+    Cette fonction ne modifie jamais PostgreSQL.
+
+    Retourne :
+    - Un DataFrame nettoyé.
+    - Un dictionnaire contenant les indicateurs
+      de qualité des données.
     """
 
-    if df.empty:
-        print(
-            "[ATTENTION] Aucune donnée à explorer."
-        )
-        return
+    df = donnees.copy()
 
-    # --------------------------------------------------------
-    # 1. Statistiques descriptives par bassin.
-    # --------------------------------------------------------
+    rapport = {
+        "lignes_initiales": len(df),
+        "dates_invalides": 0,
+        "doublons_supprimes": 0,
+        "valeurs_invalides": {},
+        "valeurs_manquantes": {},
+        "lignes_finales": 0
+    }
 
-    statistiques = df.groupby(
-        "bassin_code"
-    )[COLONNES_CAPTEURS].agg(
-        ["count", "mean", "min", "max", "std"]
+    # Vérifier les dates.
+
+    df["measure_at"] = pd.to_datetime(
+        df["measure_at"],
+        utc=True,
+        errors="coerce"
     )
 
-    chemin_stats = (
-        DOSSIER_RAPPORTS / "statistiques_bassins.csv"
+    rapport["dates_invalides"] = int(
+        df["measure_at"].isna().sum()
     )
 
-    statistiques.to_csv(
-        chemin_stats,
-        encoding="utf-8-sig"
+    # Une mesure sans date exploitable ne peut pas
+    # servir correctement à l'analyse temporelle.
+    df = df.dropna(subset=["measure_at"]).copy()
+
+    # Convertir les mesures en nombres.
+
+    for colonne in COLONNES_CAPTEURS:
+        df[colonne] = pd.to_numeric(
+            df[colonne],
+            errors="coerce"
+        )
+
+    # Vérifier les limites techniques.
+
+    limites = {
+        "temperature_c": (-10.0, 60.0),
+        "ph": (0.0, 14.0),
+        "oxygene_dissous_mg_l": (0.0, 30.0)
+    }
+
+    for colonne, (minimum, maximum) in limites.items():
+
+        invalides = (
+            df[colonne].notna()
+            & ~df[colonne].between(
+                minimum,
+                maximum
+            )
+        )
+
+        rapport["valeurs_invalides"][colonne] = int(
+            invalides.sum()
+        )
+
+        # Ne pas inventer une valeur de remplacement.
+        # Une valeur incohérente devient manquante.
+        df.loc[invalides, colonne] = float("nan")
+
+    # Supprimer les doublons exacts.
+
+    nombre_avant = len(df)
+
+    # Une retransmission identique possède :
+    # - Le même appareil.
+    # - Le même bassin.
+    # - La même date.
+    # - Les mêmes valeurs.
+    # - La même source.
+    #
+    # Deux mesures identiques à des dates différentes
+    # restent donc conservées.
+
+    colonnes_doublons = [
+        "device_id",
+        "bassin_id",
+        "measure_at",
+        "temperature_c",
+        "ph",
+        "oxygene_dissous_mg_l",
+        "source"
+    ]
+
+    df = df.drop_duplicates(
+        subset=colonnes_doublons,
+        keep="first"
+    ).copy()
+
+    rapport["doublons_supprimes"] = (
+        nombre_avant - len(df)
     )
 
-    print("\n=== STATISTIQUES DES BASSINS ===")
-    print(statistiques.round(2))
+    # Écarter les lignes sans aucune mesure exploitable.
 
-    # --------------------------------------------------------
-    # 2. Répartition des sources de données.
-    # --------------------------------------------------------
+    lignes_sans_capteur = df[
+        COLONNES_CAPTEURS
+    ].isna().all(axis=1)
 
-    print("\n=== SOURCES DES MESURES ===")
-    print(
-        df["source"].value_counts(
-            dropna=False
-        )
+    rapport["lignes_sans_capteur"] = int(
+        lignes_sans_capteur.sum()
     )
 
-    # --------------------------------------------------------
-    # 3. Générer les graphiques par bassin.
-    # --------------------------------------------------------
+    df = df.loc[~lignes_sans_capteur].copy()
 
-    for code_bassin, groupe in df.groupby(
-        "bassin_code"
-    ):
+    # Trier chronologiquement.
 
-        groupe = groupe.sort_values(
-            "measure_at"
-        )
+    df = df.sort_values(
+        ["measure_at", "mesure_id"]
+    ).reset_index(drop=True)
 
-        # Nom utilisable dans un chemin Windows.
-        code_fichier = "".join(
-            caractere
-            if caractere.isalnum()
-            or caractere in "-_"
-            else "_"
-            for caractere in str(code_bassin)
-        )
+    # Calculer les valeurs manquantes restantes.
 
-        for colonne, (titre, unite) in PARAMETRES.items():
+    rapport["valeurs_manquantes"] = {
+        colonne: int(df[colonne].isna().sum())
+        for colonne in COLONNES_CAPTEURS
+    }
 
-            fig, ax = plt.subplots(
-                figsize=(12, 5)
-            )
+    rapport["lignes_finales"] = len(df)
 
-            ax.plot(
-                groupe["measure_at"],
-                groupe[colonne],
-                linewidth=1
-            )
-
-            ax.set_title(
-                f"{titre} — {code_bassin}"
-            )
-
-            ax.set_xlabel("Date UTC")
-            ax.set_ylabel(unite)
-
-            ax.grid(
-                True,
-                alpha=0.3
-            )
-
-            fig.autofmt_xdate()
-            fig.tight_layout()
-
-            chemin = DOSSIER_RAPPORTS / (
-                f"{code_fichier}_{colonne}.png"
-            )
-
-            fig.savefig(
-                chemin,
-                dpi=140
-            )
-
-            plt.close(fig)
-
-        # ----------------------------------------------------
-        # 4. Disponibilité des capteurs.
-        # ----------------------------------------------------
-
-        disponibilite = (
-            groupe[COLONNES_CAPTEURS]
-            .notna()
-            .mean()
-            .mul(100)
-        )
-
-        fig, ax = plt.subplots(
-            figsize=(9, 5)
-        )
-
-        ax.bar(
-            disponibilite.index,
-            disponibilite.values
-        )
-
-        ax.set_title(
-            f"Disponibilité des capteurs — {code_bassin}"
-        )
-
-        ax.set_ylabel(
-            "Mesures disponibles (%)"
-        )
-
-        ax.set_ylim(0, 100)
-        ax.tick_params(
-            axis="x",
-            rotation=15
-        )
-
-        fig.tight_layout()
-
-        fig.savefig(
-            DOSSIER_RAPPORTS
-            / f"{code_fichier}_disponibilite.png",
-            dpi=140
-        )
-
-        plt.close(fig)
-
-    print(
-        "\n[OK] Graphiques enregistrés dans rapports/"
-    )
+    return df, rapport

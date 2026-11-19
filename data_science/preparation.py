@@ -2,8 +2,14 @@
 # PRÉPARATION POUR LE MACHINE LEARNING
 
 import pandas as pd
+import shutil
+from pathlib import Path
 
 from config import DOSSIER_PROCESSED
+
+# En haut du fichier (ou dans config.py)
+PROJET_DIR = Path(__file__).resolve().parent.parent
+DESTINATION_ML = PROJET_DIR / "ai" / "datasets"
 
 
 # Horizon de prédiction choisi pour le premier modèle.
@@ -178,5 +184,17 @@ def preparer_machine_learning(df):
     )
 
     print(f"Fichier : {chemin}")
+    donnees.to_csv(
+        chemin,
+        index=False,
+        encoding="utf-8-sig"
+    )
+
+    # Copier le dataset vers le dossier du module IA.
+    DESTINATION_ML.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(chemin, DESTINATION_ML / "dataset_ml.csv")
+
+    print(f"[OK] Copie : {DESTINATION_ML / 'dataset_ml.csv'}")
+    
 
     return donnees

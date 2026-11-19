@@ -157,3 +157,51 @@ class SeuilReponse(BaseModel):
 
     actif: bool
     updated_at: datetime
+class MesurePrediction(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    measure_at: datetime
+    temperature_c: float = Field(ge=0, le=50)
+    ph: float = Field(ge=0, le=14)
+    oxygene_dissous_mg_l: float = Field(ge=0, le=25)
+
+
+class RequetePrediction(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    bassin_id: int = Field(gt=0)
+    aeration_active: bool
+
+    # Le test manuel exige 31 mesures chronologiques.
+    mesures: list[MesurePrediction] = Field(
+        min_length=31,
+        max_length=31
+    )
+
+class AppareilCreation(BaseModel):
+    """
+    Données nécessaires pour enregistrer un appareil.
+    """
+
+    identifiant: str = Field(
+        min_length=3,
+        max_length=100
+    )
+
+    bassin_id: int = Field(gt=0)
+
+
+class AppareilModification(BaseModel):
+    """
+    Données modifiables d'un appareil.
+
+    Les champs sont facultatifs pour permettre
+    une modification partielle avec PATCH.
+    """
+
+    bassin_id: int | None = Field(
+        default=None,
+        gt=0
+    )
+
+    statut: str | None = None

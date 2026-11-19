@@ -11,9 +11,9 @@ Fonctionnalités :
 """
 
 from datetime import datetime, timezone,timedelta
+from typing import Literal
 from decimal import Decimal
 import asyncio
-from pydantic import BaseModel, Field
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status,WebSocket,WebSocketDisconnect
 from fastapi.encoders import jsonable_encoder
@@ -50,11 +50,26 @@ from app.schemas.schemas import (
     SeuilModification,
     SeuilReponse
 )
+from app.schemas.schemas import (
+    MesurePrediction,
+    RequetePrediction
+)
+from app.schemas.schemas import (
+    AppareilCreation,
+    AppareilModification
+)
+
 
 from app.services.service_seuils import (
     obtenir_seuils_bassin,
     valider_seuil
 )
+
+from app.services.prediction_oxygene import (
+    charger_modele,
+    predire_oxygene,
+)
+
 
 from app.services.validation_mesures import valider_mesure_iot
 
@@ -1727,37 +1742,6 @@ async def websocket_supervision(
 # Durée maximale sans mesure avant de considérer
 # un appareil comme hors ligne.
 DELAI_HORS_LIGNE_SECONDES = 60
-
-
-class AppareilCreation(BaseModel):
-    """
-    Données nécessaires pour enregistrer un appareil.
-    """
-
-    identifiant: str = Field(
-        min_length=3,
-        max_length=100
-    )
-
-    bassin_id: int = Field(gt=0)
-
-
-class AppareilModification(BaseModel):
-    """
-    Données modifiables d'un appareil.
-
-    Les champs sont facultatifs pour permettre
-    une modification partielle avec PATCH.
-    """
-
-    bassin_id: int | None = Field(
-        default=None,
-        gt=0
-    )
-
-    statut: str | None = None
-
-
 def verifier_bassin_appareil(
     db: Session,
     bassin_id: int
@@ -2175,3 +2159,176 @@ def resume_appareils(
         compteurs[correspondance[etat]] += 1
 
     return compteurs
+# ------------------------------------------------------------
+# GET : disponibilité et informations du modèle
+TAGS_PREDICTION = ["Predictions IA - Experimentales"]
+@router.get(
+    "/predictions/modele",
+    tags=TAGS_PREDICTION
+)
+def informations_modele():
+    try:
+        contenu, metadata = charger_modele()
+    except (FileNotFoundError, ValueError, OSError) as erreur:
+        raise HTTPException(
+            status_code=503,
+            detail=str(erreur)
+        )
+
+    return {
+        "modele": contenu["approche"],
+        "horizon_minutes": contenu["horizon_minutes"],
+        "features": contenu["features"],
+        "source_entrainement": contenu["source_entrainement"],
+        "statut": metadata["statut"],
+        "scores_test_synthetique": metadata.get("scores_test"),
+    }
+
+# ------------------------------------------------------------
+# POST : prédiction à partir d'un historique fourni
+# ------------------------------------------------------------
+
+@router.post(
+    "/predictions/oxygene/test",
+    tags=TAGS_PREDICTION
+)
+def tester_prediction(requete: RequetePrediction):
+    try:
+        return predire_oxygene(
+            mesures=requete.mesures,
+            bassin_id=requete.bassin_id,
+            aeration_active=requete.aeration_active,
+            source_donnees="TEST_MANUEL"
+        )
+
+    except ValueError as erreur:
+        raise HTTPException(
+            status_code=422,
+            detail=str(erreur)
+        )
+
+    except (FileNotFoundError, OSError) as erreur:
+        raise HTTPException(
+            status_code=503,
+            detail=str(erreur)
+        )
+
+
+# ------------------------------------------------------------
+# GET : prédiction à partir des mesures PostgreSQL
+# ------------------------------------------------------------
+@router.get(
+    "/predictions/oxygene/{bassin_id}",
+    tags=TAGS_PREDICTION
+)
+def prediction_bassin(
+    bassin_id: int,
+
+    aeration_active: bool = Query(
+        ...,
+        description=(
+            "Etat connu de l'aeration du bassin : "
+            "true ou false."
+        )
+    ),
+
+    source: Literal[
+        "SIMULATION_TEMPORELLE",
+        "APPAREIL"
+    ] = Query(
+        ...,
+        description="Source des mesures."
+    ),
+
+    db: Session = Depends(get_db)
+):
+    """
+    Prédire l'oxygène dissous à +10 minutes
+    à partir des mesures enregistrées en PostgreSQL.
+    """
+
+    # Vérifier l'existence du bassin.
+    bassin = db.get(Bassin, bassin_id)
+
+    if bassin is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Bassin introuvable."
+        )
+
+    # Récupérer les 31 dernières mesures d'une
+    # seule source pour le bassin demandé.
+    requete = (
+        select(MesureEau)
+        .where(
+            MesureEau.bassin_id == bassin_id,
+            MesureEau.source == source
+        )
+        .order_by(
+            MesureEau.measure_at.desc(),
+            MesureEau.id.desc()
+        )
+        .limit(31)
+    )
+
+    mesures = list(
+        db.scalars(requete).all()
+    )
+
+    if len(mesures) < 31:
+        raise HTTPException(
+            status_code=422,
+            detail=(
+                "Historique insuffisant : "
+                "31 mesures sont necessaires "
+                f"pour la source {source}."
+            )
+        )
+
+    # Vérifier la fraîcheur des données des appareils.
+    if source == "APPAREIL":
+
+        derniere_date = mesures[0].measure_at
+
+        if (
+            derniere_date.tzinfo is None
+            or derniere_date.utcoffset() is None
+        ):
+            raise HTTPException(
+                status_code=422,
+                detail="Date sans fuseau horaire."
+            )
+
+        age_secondes = (
+            datetime.now(timezone.utc)
+            - derniere_date.astimezone(timezone.utc)
+        ).total_seconds()
+
+        if age_secondes < -30 or age_secondes > 120:
+            raise HTTPException(
+                status_code=422,
+                detail=(
+                    "Derniere mesure trop ancienne "
+                    "ou situee dans le futur."
+                )
+            )
+
+    try:
+        return predire_oxygene(
+            mesures=mesures,
+            bassin_id=bassin_id,
+            aeration_active=aeration_active,
+            source_donnees=source
+        )
+
+    except ValueError as erreur:
+        raise HTTPException(
+            status_code=422,
+            detail=str(erreur)
+        )
+
+    except (FileNotFoundError, OSError) as erreur:
+        raise HTTPException(
+            status_code=503,
+            detail=str(erreur)
+        )

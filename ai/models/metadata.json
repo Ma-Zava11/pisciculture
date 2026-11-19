@@ -1,0 +1,26 @@
+{
+  "approche": "Extra Trees",
+  "horizon_minutes": 10,
+  "source_entrainement": "SIMULATION_TEMPORELLE",
+  "statut": "EXPERIMENTAL_NON_VALIDE_SUR_CAPTEURS_REELS",
+  "seuil_alerte_experimental": 4.0,
+  "features": [
+    "temperature_c",
+    "ph",
+    "oxygene_dissous_mg_l",
+    "oxygene_retard_1",
+    "oxygene_retard_6",
+    "oxygene_retard_30",
+    "variation_o2_1min",
+    "variation_o2_5min",
+    "heure_sin",
+    "heure_cos",
+    "aeration_active",
+    "bassin_id"
+  ],
+  "scores_test": {
+    "MAE": 0.1424929000187748,
+    "RMSE": 0.19977638546726068,
+    "R2": 0.9443804620979217
+  }
+}

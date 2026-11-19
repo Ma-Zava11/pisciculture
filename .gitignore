@@ -41,3 +41,9 @@ __pycache__/
 
 # Variables d'environnement
 .env
+
+# Modèles entraînés localement
+data_science/modeles/*.joblib
+
+# Rapports expérimentaux générés
+data_science/rapports/machine_learning/
